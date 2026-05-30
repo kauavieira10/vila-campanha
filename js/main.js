@@ -53,8 +53,6 @@
     else if (src === 'offline') { banner.className = 'banner offline show'; banner.innerHTML = '🟡 Modo offline — não consegui falar com o Google Sheets agora. Mostrando os últimos dados de exemplo.'; }
 
     document.getElementById('footerDate').textContent = t.toLocaleDateString('pt-BR');
-
-    if (State.full.meta && State.full.meta.mesRef) document.getElementById('headerMonth').textContent = State.full.meta.mesRef;
   }
 
   // ---------- Render geral ----------

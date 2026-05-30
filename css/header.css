@@ -1,12 +1,12 @@
 /* ============================================================
-   CABEÇALHO MINIMALISTA — faixa azul, só logo + nome
+   CABEÇALHO — logo da agência (esq.) + nome do cliente (dir.)
    ============================================================ */
 
 .app-header {
   background: var(--header-grad);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-header);
-  padding: 20px 26px;
+  padding: 22px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -24,54 +24,26 @@
   right: -6%;
   width: 360px;
   height: 360px;
-  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+  background: radial-gradient(circle, rgba(255,255,255,0.13), transparent 70%);
   pointer-events: none;
 }
 
-.app-header__brand {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  position: relative;
-  z-index: 1;
-}
+.app-header__brand { display: flex; align-items: center; position: relative; z-index: 1; }
 
-/* selo branco arredondado para a logo (logo colorida → selo) */
-.brand-seal {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
-  flex-shrink: 0;
-  overflow: hidden;
-}
-.brand-seal img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* logo "acesso" recolorida pra branco, direto sobre o azul */
+.agency-logo { height: 34px; width: auto; display: block; }
 
-.app-header__brand h1 {
+.app-header__client { position: relative; z-index: 1; }
+.app-header__client .client-name {
   font-family: var(--font-display);
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: #fff;
 }
 
-.app-header__month {
-  position: relative;
-  z-index: 1;
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.92);
-  background: rgba(255,255,255,0.14);
-  border: 1px solid rgba(255,255,255,0.2);
-  padding: 7px 14px;
-  border-radius: var(--radius-pill);
-}
-
 @media (max-width: 640px) {
   .app-header { padding: 16px 18px; }
-  .app-header__brand h1 { font-size: 18px; }
+  .agency-logo { height: 28px; }
+  .app-header__client .client-name { font-size: 16px; }
 }

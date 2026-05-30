@@ -78,7 +78,7 @@ Compartilhar → **Acesso geral: Qualquer pessoa com o link** → **Leitor**. (S
 ## ⚙️ Ajustes rápidos
 - **Metas / orçamento**: bloco `meta` em `data/dataset.js`. Os *realizados* (gasto e leads) são calculados ao vivo das linhas diárias da planilha.
 - **Cores / tema**: `css/variables.css`.
-- **Logo/favicon**: substitua `assets/favicon.png` pela arte da Vila Campanha (quadrada, fundo claro funciona bem no selo branco do cabeçalho).
+- **Logo/favicon**: a logo da agência (`assets/logo-acesso.png`) já vem recolorida em branco para o cabeçalho azul. Para trocar o ícone da aba, substitua `assets/favicon.png`.
 
 ## 📁 Estrutura
 ```
