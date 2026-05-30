@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: dashboard-vila-campanha
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: ""
+    startCommand: node server.js
+    envVars:
+      - key: GOOGLE_SHEETS_API_KEY
+        sync: false
+      - key: GOOGLE_SHEETS_ID
+        value: 16Q-f9sshSg-fE48baZqrjiEB3rn8NQlF-F7IEKOeCxM
+      - key: GOOGLE_SHEETS_NAME
+        value: "Diário Performance"
+      - key: GOOGLE_SHEETS_RANGE
+        value: A1:Z200

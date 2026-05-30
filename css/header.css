@@ -1,0 +1,96 @@
+/* ============================================================
+   CABEÇALHO — faixa azul gradiente full width
+   ============================================================ */
+
+.app-header {
+  background: var(--header-grad);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-header);
+  padding: 20px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* glow branco sutil */
+.app-header::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  right: -10%;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(255,255,255,0.16), transparent 70%);
+  pointer-events: none;
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-seal {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--primary-strong);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+  flex-shrink: 0;
+}
+
+.app-header__titles h1 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.app-header__titles p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.78);
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+.app-header__client {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+.app-header__client .client-name {
+  text-align: right;
+}
+.app-header__client .client-name .label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.7);
+  font-weight: 600;
+}
+.app-header__client .client-name .value {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+@media (max-width: 640px) {
+  .app-header { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px 18px; }
+  .app-header__client { align-self: stretch; justify-content: space-between; }
+  .app-header__client .client-name { text-align: left; }
+}
