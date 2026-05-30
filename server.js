@@ -45,9 +45,9 @@ async function handleSheetsProxy(req, res) {
       return sendJSON(res, response.status, {
         error: `Google Sheets API ${response.status}`,
         detail: errorText.substring(0, 500),
-        hint: response.status === 403 ? "Planilha não está pública ou a API Key não tem acesso à Sheets API."
-            : response.status === 404 ? "Planilha ou aba não encontrada (confira ID e nome da aba)."
-            : response.status === 400 ? "Range inválido OU GOOGLE_SHEETS_NAME está com o nome do ARQUIVO (deve ser o nome da ABA!)."
+        hint: response.status === 403 ? "Planilha não está pública OU a API Key tem restrição de site/HTTP referrer (bloqueia o servidor). Deixe a restrição de aplicativo como None."
+            : response.status === 404 ? "Planilha não encontrada — confira o GOOGLE_SHEETS_ID (cole sem /edit e sem espaços)."
+            : response.status === 400 ? "Range inválido OU GOOGLE_SHEETS_NAME está com o nome do ARQUIVO (deve ser o nome da ABA, no rodapé!)."
             : null
       });
     }
@@ -70,7 +70,9 @@ async function handleSheetsProxy(req, res) {
 function sendJSON(res, status, obj) {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.setHeader("Access-Control-Allow-Origin", process.env.URL || "*");
+  // O próprio server.js serve o front (mesma origem), então o CORS nem é necessário.
+  // No Render a URL pública vem em RENDER_EXTERNAL_URL (URL é variável do Netlify).
+  res.setHeader("Access-Control-Allow-Origin", process.env.RENDER_EXTERNAL_URL || "*");
   res.end(JSON.stringify(obj));
 }
 

@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vila Campanha · Dashboard de Performance</title>
+  <title>Vila Campanha · Performance</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
 
   <!-- Aplica o tema ANTES de pintar (evita flash) -->
   <script>
@@ -30,27 +31,22 @@
 <body>
   <div class="wrap">
 
-    <!-- CABEÇALHO -->
+    <!-- CABEÇALHO MINIMALISTA: só logo + nome -->
     <header class="app-header">
       <div class="app-header__brand">
-        <div class="brand-seal">VC</div>
-        <div class="app-header__titles">
-          <h1 id="headerName">Vila Campanha</h1>
-          <p>Performance de Mídia · Google &amp; Facebook</p>
-        </div>
+        <div class="brand-seal"><img src="assets/favicon.png" alt="VC" /></div>
+        <h1 id="headerName">Vila Campanha</h1>
       </div>
-      <div class="app-header__client">
-        <div class="client-name">
-          <div class="label">Relatório</div>
-          <div class="value">Diário · Projeções</div>
-        </div>
-      </div>
+      <div class="app-header__month" id="headerMonth">Maio · 2026</div>
     </header>
 
     <!-- TOOLBAR -->
     <div class="toolbar">
       <div class="toolbar__left">
-        <div class="tabs"><span class="tab is-active">Visão geral</span></div>
+        <div class="tabs">
+          <button class="tab is-active" data-view="overview">Visão geral</button>
+          <button class="tab" data-view="period">Por período</button>
+        </div>
       </div>
       <div class="toolbar__right">
         <div class="segmented" role="group" aria-label="Período">
@@ -80,74 +76,90 @@
     <!-- BANNER (demo/offline) -->
     <div id="banner" class="banner"></div>
 
-    <!-- GRÁFICOS -->
-    <h2 class="section-title">Visão geral</h2>
-    <div class="grid-charts">
-      <div class="card chart-card col-8">
-        <div class="chart-card__head"><h3>Leads acumulados × meta</h3><span class="hint">real vs. ritmo da meta</span></div>
-        <div class="chart-card__body"><canvas id="chartLine"></canvas></div>
-      </div>
-      <div class="card chart-card col-4">
-        <div class="chart-card__head"><h3>Leads por plataforma</h3></div>
-        <div class="chart-card__body"><canvas id="chartDoughnut"></canvas></div>
-      </div>
-      <div class="card chart-card col-8">
-        <div class="chart-card__head"><h3>Leads por dia</h3><span class="hint">Google × Facebook</span></div>
-        <div class="chart-card__body"><canvas id="chartBarsDaily"></canvas></div>
-      </div>
-      <div class="card chart-card col-4">
-        <div class="chart-card__head"><h3>Investimento × orçamento</h3></div>
-        <div class="chart-card__body"><canvas id="chartInvest"></canvas></div>
-      </div>
-    </div>
+    <!-- ========== VIEW: VISÃO GERAL ========== -->
+    <section id="viewOverview" class="view is-active">
 
-    <!-- TABELA -->
-    <h2 class="section-title">Detalhe diário</h2>
-    <div class="card table-card">
-      <div class="table-card__head">
-        <h3 style="font-size:14px">Performance dia a dia</h3>
-        <button id="tableCsvBtn" class="btn" title="Exportar CSV">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-          CSV
-        </button>
+      <!-- KPIs -->
+      <h2 class="section-title">Indicadores</h2>
+      <div id="kpiGrid" class="kpi-grid"></div>
+
+      <!-- GRÁFICOS -->
+      <h2 class="section-title">Visão geral</h2>
+      <div class="grid-charts">
+        <div class="card chart-card col-8">
+          <div class="chart-card__head"><h3>Leads acumulados × meta</h3><span class="hint">real vs. ritmo da meta</span></div>
+          <div class="chart-card__body"><canvas id="chartLine"></canvas></div>
+        </div>
+        <div class="card chart-card col-4">
+          <div class="chart-card__head"><h3>Leads por plataforma</h3></div>
+          <div class="chart-card__body"><canvas id="chartDoughnut"></canvas></div>
+        </div>
+        <div class="card chart-card col-8">
+          <div class="chart-card__head"><h3>Leads por dia</h3><span class="hint">Google × Facebook</span></div>
+          <div class="chart-card__body"><canvas id="chartBarsDaily"></canvas></div>
+        </div>
+        <div class="card chart-card col-4">
+          <div class="chart-card__head"><h3>Investimento × orçamento</h3></div>
+          <div class="chart-card__body"><canvas id="chartInvest"></canvas></div>
+        </div>
       </div>
-      <div class="table-scroll">
-        <table class="data">
-          <thead>
-            <tr>
-              <th>Data</th><th>Dia</th>
-              <th>Verba Google</th><th>Leads Google</th>
-              <th>Verba FB</th><th>Leads FB</th><th>CPL FB</th>
-              <th>Leads/dia</th><th>Acumulado</th><th>% meta</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-          <tfoot id="tableFoot"></tfoot>
-        </table>
+
+      <!-- TABELA -->
+      <h2 class="section-title">Detalhe diário</h2>
+      <div class="card table-card">
+        <div class="table-card__head">
+          <h3 style="font-size:14px">Performance dia a dia</h3>
+          <button id="tableCsvBtn" class="btn" title="Exportar CSV">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            CSV
+          </button>
+        </div>
+        <div class="table-scroll">
+          <table class="data">
+            <thead>
+              <tr>
+                <th>Data</th><th>Dia</th>
+                <th>Verba Google</th><th>Leads Google</th>
+                <th>Verba FB</th><th>Leads FB</th><th>CPL FB</th>
+                <th>Leads/dia</th><th>Acumulado</th><th>% meta</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+            <tfoot id="tableFoot"></tfoot>
+          </table>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- ========== VIEW: POR PERÍODO ========== -->
+    <section id="viewPeriod" class="view">
+      <h2 class="section-title">Por plataforma e janela de tempo</h2>
+      <div id="periodBlocks" class="period-grid"></div>
+      <div class="card chart-card period-chart-card">
+        <div class="chart-card__head"><h3>Leads por janela</h3><span class="hint">Google × Facebook</span></div>
+        <div class="chart-card__body"><canvas id="chartPeriod"></canvas></div>
+      </div>
+    </section>
 
     <footer class="site-footer">
       Dashboard atualizado em <span id="footerDate">—</span> · Dados do Google Sheets
     </footer>
   </div>
 
-  <!-- Overlay de carregamento -->
   <div id="loadingOverlay" class="loading-overlay"><div class="spinner"></div></div>
-  <!-- Toasts -->
   <div id="toastZone" class="toast-zone"></div>
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
-  <!-- App -->
   <script src="data/dataset.js"></script>
   <script src="js/config.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/sheets.js"></script>
+  <script src="js/kpis.js"></script>
   <script src="js/charts.js"></script>
   <script src="js/table.js"></script>
+  <script src="js/period.js"></script>
   <script src="js/report.js"></script>
   <script src="js/main.js"></script>
 </body>

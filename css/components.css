@@ -167,3 +167,79 @@ table.data tfoot td:first-child { text-align: left; }
   .toast-zone { left: 12px; right: 12px; bottom: 12px; }
   .toast { min-width: 0; }
 }
+
+/* ============================================================
+   KPIs (v3) — scorecards que respondem ao filtro
+   ============================================================ */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--gap);
+}
+.kpi-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--primary);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 16px 18px 18px;
+  overflow: hidden;
+  animation: fadeUp 0.5s ease both;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.3s ease;
+}
+.kpi-card:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0,0,0,0.18); }
+.kpi-card.accent { border-top-color: var(--accent); }
+.kpi-card:nth-child(1) { animation-delay: 0.05s; }
+.kpi-card:nth-child(2) { animation-delay: 0.10s; }
+.kpi-card:nth-child(3) { animation-delay: 0.15s; }
+.kpi-card:nth-child(4) { animation-delay: 0.20s; }
+
+.kpi-card__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.kpi-chip {
+  width: 40px; height: 40px; border-radius: 11px;
+  background: var(--primary-soft); color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+}
+.kpi-card.accent .kpi-chip { background: var(--accent-soft); color: var(--accent); }
+.kpi-chip svg { width: 20px; height: 20px; }
+
+.kpi-badge {
+  font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: var(--radius-pill);
+}
+.kpi-badge.good { background: rgba(45,212,126,0.16); color: var(--success); }
+.kpi-badge.warn { background: var(--accent-soft); color: var(--accent); }
+.kpi-badge.bad  { background: rgba(239,111,90,0.16); color: var(--danger); }
+
+.kpi-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; }
+.kpi-value { font-family: var(--font-display); font-size: 30px; font-weight: 800; line-height: 1.1; margin: 4px 0 3px; color: var(--text); }
+.kpi-sub { font-size: 12px; color: var(--muted); }
+.kpi-progress { height: 4px; border-radius: 999px; background: var(--surface-2); margin-top: 12px; overflow: hidden; }
+.kpi-progress > span { display: block; height: 100%; background: var(--primary); border-radius: 999px; transition: width 0.5s ease; }
+.kpi-card.accent .kpi-progress > span { background: var(--accent); }
+
+/* ============================================================
+   ABA "POR PERÍODO" (v3) — blocos por plataforma
+   ============================================================ */
+.view { display: none; }
+.view.is-active { display: block; }
+
+.period-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.platform-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden; }
+.platform-block__head { padding: 13px 18px; color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 9px; }
+.platform-block__head.google { background: linear-gradient(120deg, var(--primary-strong), var(--primary)); }
+.platform-block__head.facebook { background: linear-gradient(120deg, #d9780f, var(--accent)); }
+.platform-block__head .dot { width: 9px; height: 9px; border-radius: 50%; background: #fff; }
+.platform-block__body { padding: 14px 18px 18px; }
+.platform-block table.mini { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 14px; }
+.platform-block table.mini th, .platform-block table.mini td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+.platform-block table.mini thead th { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700; }
+.platform-block table.mini tbody th { text-align: left; font-weight: 600; color: var(--text); }
+.platform-block__foot { font-size: 12px; color: var(--muted); border-top: 1px dashed var(--border); padding-top: 10px; }
+.platform-block__foot strong { color: var(--text); }
+.period-chart-card { padding: 16px 18px 18px; margin-top: var(--gap); }
+.period-chart-card .chart-card__body { min-height: 300px; }
+
+@media (max-width: 860px) {
+  .period-grid { grid-template-columns: 1fr; }
+}

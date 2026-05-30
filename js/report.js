@@ -3,7 +3,8 @@
    ============================================================ */
 window.Report = (function () {
   function exportCSV(rows, filename) {
-    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+    // Excel em pt-BR usa ';' como separador. Com ',' tudo cai numa coluna só.
+    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(';')).join('\r\n');
     const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -11,6 +12,7 @@ window.Report = (function () {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
   }
 
   function fromData(data) {

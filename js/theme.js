@@ -14,7 +14,8 @@ window.Theme = {
   },
   toggle() {
     this.set(this.get() === 'dark' ? 'light' : 'dark');
-    if (window.Charts && Charts.repaintAll) Charts.repaintAll();
+    if (window.__repaint) window.__repaint();
+    else if (window.Charts && Charts.repaintAll) Charts.repaintAll();
   },
   syncIcon() {
     const btn = document.getElementById('themeBtn');
