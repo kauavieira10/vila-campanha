@@ -1,0 +1,12 @@
+{
+  "name": "dashboard-vila-campanha",
+  "version": "1.0.0",
+  "description": "Dashboard de performance de mídia - Vila Campanha",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
