@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: dashboard-vila-campanha
+    name: dashboard-acesso
     runtime: node
     plan: free
     region: oregon
@@ -9,9 +9,9 @@ services:
     envVars:
       - key: GOOGLE_SHEETS_API_KEY
         sync: false
-      - key: GOOGLE_SHEETS_ID
-        value: 16Q-f9sshSg-fE48baZqrjiEB3rn8NQlF-F7IEKOeCxM
-      - key: GOOGLE_SHEETS_NAME
-        value: "Diário Performance"
-      - key: GOOGLE_SHEETS_RANGE
-        value: A1:Z200
+      - key: CONTROL_SHEET_ID
+        sync: false
+      - key: CONTROL_SHEET_NAME
+        value: Clientes
+      - key: CONTROL_SHEET_RANGE
+        value: A1:Z300

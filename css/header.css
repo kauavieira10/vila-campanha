@@ -5,7 +5,7 @@
 .app-header {
   background: var(--header-grad);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-header);
+  box-shadow: 0 12px 36px rgba(11,36,71,0.45);
   padding: 20px 26px;
   display: flex;
   align-items: center;
@@ -31,7 +31,7 @@
 .app-header__brand { display: flex; align-items: center; position: relative; z-index: 1; }
 
 /* logo "acesso" branca, direto sobre o azul */
-.agency-logo { height: 46px; width: auto; display: block; }
+.agency-logo { height: 64px; width: auto; display: block; }
 
 /* lado direito: nome do cliente + divisor + selo branco */
 .app-header__client {

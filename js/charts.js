@@ -15,7 +15,7 @@ window.Charts = (function () {
       bg: Utils.cssVar('--bg'),
       muted: Utils.cssVar('--muted'),
       grid: Utils.cssVar('--grid-line'),
-      surface: Utils.cssVar('--surface')
+      surface: Utils.cssVar('--bg')
     };
   }
 
@@ -99,7 +99,7 @@ window.Charts = (function () {
       type: 'doughnut',
       data: {
         labels: ['Google', 'Facebook'],
-        datasets: [{ data: [totG, totF], backgroundColor: [p.s1, p.s2], borderColor: p.surface, borderWidth: 3, hoverOffset: 6 }]
+        datasets: [{ data: [totG, totF], backgroundColor: [p.s1, p.s2], borderColor: p.surface, borderWidth: 2, hoverOffset: 6 }]
       },
       options: { ...baseOpts(p), cutout: '62%', plugins: { ...baseOpts(p).plugins, legend: { ...baseOpts(p).plugins.legend, position: 'bottom' } } }
     });

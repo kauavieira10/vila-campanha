@@ -1,67 +1,86 @@
 /* ============================================================
-   TOKENS DE DESIGN — Azul Corporativo Premium
-   Tema escuro é o padrão. Tema claro via :root (data-theme não definido / "light").
+   TOKENS — Glassmorphism (estilo Apple/iOS) · claro + escuro
    ============================================================ */
 
-:root[data-theme="dark"] {
-  --bg:             #081120;
-  --surface:        #0f1c30;
-  --surface-2:      #15243b;
-  --border:         #21344f;
-  --text:           #e8effb;
-  --muted:          #94a7c6;
-  --primary:        #4f93f5;
-  --primary-strong: #3b7fe6;
-  --primary-soft:   #13294a;
-  --accent:         #f6a83c;
-  --accent-soft:    #33270f;
-  --success:        #2dd47e;
-  --warning:        #f1b340;
-  --danger:         #ef6f5a;
-  --header-grad:    linear-gradient(120deg, #15406e 0%, #102e57 60%, #0b2447 100%);
-
-  --series-1: #4f93f5;  /* azul   - Google */
-  --series-2: #f6a83c;  /* laranja - Facebook */
-  --series-3: #a855f7;  /* roxo */
-  --series-4: #06b6d4;  /* ciano */
-  --grid-line: rgba(148, 167, 198, 0.14);
-
-  --shadow-card:   0 4px 14px rgba(0, 0, 0, 0.28);
-  --shadow-header: 0 12px 36px rgba(11, 36, 71, 0.55);
-}
-
-/* Tema claro (padrão do :root sem atributo, e quando data-theme="light") */
+/* ---------- TEMA CLARO (padrão do :root e data-theme="light") ---------- */
 :root,
 :root[data-theme="light"] {
-  --bg:             #ffffff;
-  --surface:        #ffffff;
-  --surface-2:      #f1f6fd;
-  --border:         #dbe6f5;
-  --text:           #112038;
-  --muted:          #5b6b87;
-  --primary:        #1f6fe5;
-  --primary-strong: #1452b8;
-  --primary-soft:   #e7f0fd;
-  --accent:         #ef8a1f;
-  --accent-soft:    #fdeed9;
-  --success:        #1f9d56;
-  --warning:        #d99100;
-  --danger:         #dc4632;
-  --header-grad:    linear-gradient(120deg, #1f6fe5 0%, #1452b8 60%, #0f3f93 100%);
+  --bg:             #EBF1F9;
+  --text:           #0F1F38;
+  --muted:          #5B6B87;
+  --primary:        #1F6FE5;
+  --primary-strong: #1452B8;
+  --primary-soft:   rgba(31, 111, 229, 0.10);
+  --accent:         #EF8A1F;
+  --accent-soft:    rgba(239, 138, 31, 0.12);
+  --success:        #1F9D56;
+  --warning:        #D99100;
+  --danger:         #DC4632;
+  --header-grad:    linear-gradient(120deg, #1F6FE5 0%, #1452B8 55%, #0F3F93 100%);
 
-  --series-1: #1f6fe5;
-  --series-2: #ef8a1f;
-  --series-3: #9333ea;
-  --series-4: #0891b2;
-  --grid-line: rgba(17, 32, 56, 0.08);
+  /* vidro */
+  --glass-bg:     linear-gradient(140deg, rgba(255,255,255,0.55), rgba(255,255,255,0.30));
+  --glass-bg-2:   linear-gradient(140deg, rgba(255,255,255,0.42), rgba(255,255,255,0.22));
+  --glass-border: rgba(255,255,255,0.6);
+  --glass-blur:   blur(24px) saturate(180%);
+  --glass-shadow: 0 8px 28px rgba(15,42,95,0.10), inset 0 1px 0 rgba(255,255,255,0.75), inset 0 -1px 0 rgba(0,0,0,0.04);
+  --sheen:        linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+  --surface-2:    rgba(255,255,255,0.45);
+  --border:       rgba(15,42,95,0.10);
 
-  --shadow-card:   0 4px 14px rgba(15, 42, 95, 0.07);
-  --shadow-header: 0 12px 36px rgba(31, 111, 229, 0.22);
+  /* blobs de fundo */
+  --blob-1: #1F6FE5;
+  --blob-2: #EF8A1F;
+  --blob-3: #7C5CFF;
+  --blob-opacity: 0.40;
+
+  /* séries de gráficos */
+  --series-1: #1F6FE5;
+  --series-2: #EF8A1F;
+  --series-3: #7C5CFF;
+  --series-4: #0EA5B7;
+  --grid-line: rgba(15,42,95,0.08);
+}
+
+/* ---------- TEMA ESCURO (branco em baixa opacidade, nunca preto) ---------- */
+:root[data-theme="dark"] {
+  --bg:             #060B1A;
+  --text:           #ECF1FB;
+  --muted:          #94A7C6;
+  --primary:        #4F93F5;
+  --primary-strong: #3B7FE6;
+  --primary-soft:   rgba(79,147,245,0.16);
+  --accent:         #F6A83C;
+  --accent-soft:    rgba(246,168,60,0.16);
+  --success:        #2DD47E;
+  --warning:        #F1B340;
+  --danger:         #EF6F5A;
+  --header-grad:    linear-gradient(120deg, #15406E 0%, #102E57 60%, #0B2447 100%);
+
+  --glass-bg:     linear-gradient(140deg, rgba(255,255,255,0.09), rgba(255,255,255,0.045));
+  --glass-bg-2:   linear-gradient(140deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+  --glass-border: rgba(255,255,255,0.12);
+  --glass-blur:   blur(24px) saturate(180%);
+  --glass-shadow: 0 8px 28px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 0 rgba(0,0,0,0.22);
+  --sheen:        linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  --surface-2:    rgba(255,255,255,0.06);
+  --border:       rgba(255,255,255,0.10);
+
+  --blob-1: #2B6FE0;
+  --blob-2: #E0851C;
+  --blob-3: #6D4FE0;
+  --blob-opacity: 0.50;
+
+  --series-1: #4F93F5;
+  --series-2: #F6A83C;
+  --series-3: #A88BFF;
+  --series-4: #2BC4D6;
+  --grid-line: rgba(148,167,198,0.14);
 }
 
 :root {
-  --radius-card: 16px;
-  --radius-sm:   11px;
+  --radius-card: 18px;
+  --radius-sm:   12px;
   --radius-pill: 999px;
   --maxw: 1320px;
   --gap: 16px;

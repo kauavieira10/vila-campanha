@@ -13,9 +13,12 @@ window.Utils = {
     let s = String(raw).trim();
     if (!s) return 0;
     s = s.replace(/r\$/i, '').replace(/%/g, '').replace(/\s/g, '');
-    // formato pt-BR: ponto de milhar, vírgula decimal
     if (s.includes(',')) {
+      // vírgula = decimal (pt-BR): pontos viram milhar
       s = s.replace(/\./g, '').replace(',', '.');
+    } else if (/^-?\d{1,3}(\.\d{3})+$/.test(s)) {
+      // só pontos, em grupos de 3 (ex: 2.600, 1.234.567) = separador de milhar
+      s = s.replace(/\./g, '');
     }
     const n = parseFloat(s);
     return isNaN(n) ? 0 : n;

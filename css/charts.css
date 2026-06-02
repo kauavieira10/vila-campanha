@@ -1,11 +1,1 @@
-/* ============================================================
-   GRÁFICOS — ajustes do container do Chart.js
-   ============================================================ */
-.chart-card__body canvas { max-width: 100%; }
-
-.legend-inline {
-  display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px;
-  font-size: 12px; color: var(--muted);
-}
-.legend-inline .lg { display: flex; align-items: center; gap: 6px; }
-.legend-inline .dot { width: 10px; height: 10px; border-radius: 3px; }
+/* gráficos: estilos movidos para base.css e components.css */

@@ -1,92 +1,92 @@
-# Dashboard de Performance · Vila Campana
+# Painel de Performance · acesso (multi-cliente)
 
-Painel de acompanhamento das campanhas de mídia (Google + Facebook), conectado direto à sua planilha do Google Sheets. Tema escuro por padrão, com botão para tema claro.
+Um **único app** que serve todos os seus clientes. Cada cliente abre por uma URL própria
+(`.../?cliente=slug`) e os dados vêm da planilha de mídia daquele mês.
 
-Você pode publicar de **duas formas** — escolha uma:
-- **Render** (Node) — simples; "dorme" após 15 min de inatividade no plano free.
-- **Netlify** (função serverless) — não dorme no plano free; recomendado para acesso frequente.
+A grande sacada: **o app não tem o ID das planilhas "chumbado"**. Ele lê uma **planilha de
+controle** (uma só) que diz, para cada cliente, qual planilha do mês carregar. Então:
+
+- **Virar o mês** = atualizar a planilha de controle (um lugar só). **Sem redeploy.**
+- **Cliente novo** = adicionar uma linha na planilha de controle. **Sem deploy.**
 
 ---
 
-## 🚀 Opção A — Render (gratuito)
+## 🗂️ A planilha de controle (o coração de tudo)
 
-### Parte 1 — Subir o código no GitHub
-1. Crie uma conta gratuita em https://github.com
-2. Crie um repositório novo (pode ser **público** — as credenciais ficam protegidas no servidor, nunca no código)
-3. Suba os arquivos desta pasta (o arrastar-e-soltar do GitHub funciona)
+Crie **uma** planilha no Google (ex: "Painel de Controle — acesso") com uma aba chamada
+`Clientes`. A primeira linha são os cabeçalhos (podem estar em qualquer ordem):
 
-### Parte 2 — Conectar no Render
-1. https://render.com → **Get Started** (entre com o GitHub)
-2. **New +** → **Web Service** → escolha o repositório
-3. Configurações: **Build Command** vazio · **Start Command** `node server.js` · **Plan** Free · **Region** Oregon
+| slug | nome | sheet_id | aba | range | mes_ref | orcamento | meta_leads | meta_cpl |
+|---|---|---|---|---|---|---|---|---|
+| vila-campana | Vila Campana | `16Q-f9ss...` | Diário Performance | A1:Z200 | Junho de 2026 | 2.600 | 410 | 6,34 |
+| acomix | Açomix | `1AbC...` | Diário Performance | A1:Z200 | Junho de 2026 | 5.000 | 800 | 6,25 |
 
-### Parte 3 — Variáveis de ambiente (ESSENCIAL)
-Menu lateral → **Environment** → **Add Environment Variable**:
+**O que cada coluna significa:**
+- **slug** *(obrigatório)* — o "apelido" do cliente que vai na URL. Use minúsculas, sem espaço (ex: `vila-campana`). É o que aparece em `?cliente=vila-campana`.
+- **nome** — nome de exibição no cabeçalho (ex: "Vila Campana").
+- **sheet_id** *(obrigatório)* — o ID da planilha de mídia **daquele mês** (a parte entre `/d/` e `/edit` do link). **É só este campo que você troca quando o mês vira.**
+- **aba** — nome da aba dentro da planilha de mídia (padrão: `Diário Performance`).
+- **range** — padrão `A1:Z200` (use `A1:AZ200` se a planilha for bem larga).
+- **mes_ref** — texto livre só pra exibição (ex: "Junho de 2026").
+- **orcamento / meta_leads / meta_cpl** — as metas do mês (os *realizados* são calculados sozinhos a partir das linhas diárias).
+- *(opcionais)* **orcamento_google, orcamento_fb, meta_lead_google, meta_lead_fb** — se quiser as metas por plataforma exatas; se deixar em branco, o app divide 50/50.
+
+> ⚠️ A planilha de controle **e** as planilhas de cada cliente precisam estar **públicas para leitura** (Compartilhar → Qualquer pessoa com o link → Leitor).
+
+**Rotina mensal:** quando criar as planilhas novas do mês, é só colar o `sheet_id` novo (e atualizar `mes_ref` e as metas, se mudaram) na linha de cada cliente. Pronto — todos os dashboards passam a mostrar o mês novo. Dá pra automatizar isso com um Google Apps Script que, ao criar a planilha do mês, já escreve o ID na linha do cliente.
+
+---
+
+## 🚀 Deploy — Render (gratuito)
+
+1. Suba o código num repositório **público** no GitHub.
+2. https://render.com → **New +** → **Web Service** → escolha o repo.
+3. **Build Command** vazio · **Start Command** `node server.js` · **Plan** Free.
+4. **Environment** → adicione:
 
 | Key | Value |
 |---|---|
 | `GOOGLE_SHEETS_API_KEY` | sua chave `AIzaSy...` (marque **secret**) |
-| `GOOGLE_SHEETS_ID` | `16Q-f9sshSg-fE48baZqrjiEB3rn8NQlF-F7IEKOeCxM` |
-| `GOOGLE_SHEETS_NAME` | `Diário Performance` |
-| `GOOGLE_SHEETS_RANGE` | `A1:Z200` |
+| `CONTROL_SHEET_ID` | ID da **planilha de controle** |
+| `CONTROL_SHEET_NAME` | `Clientes` |
+| `CONTROL_SHEET_RANGE` | `A1:Z300` |
 
-### Parte 4 — Deploy
-Salve → deploy automático → aguarde **"Live"** (~2 min) → acesse a URL.
-> Mudou alguma variável? **Manual Deploy → Trigger deploy** para o Render reler.
+5. Deploy → aguarde **"Live"**.
 
-> 💤 O Render Free dorme após ~15 min. Para evitar o atraso de ~30s no primeiro acesso, use o **UptimeRobot** (gratuito) pingando `https://seu-app.onrender.com/health` a cada 5 min.
+> 💤 Render Free dorme após ~15 min. Use o **UptimeRobot** pingando `/health` a cada 5 min pra evitar o atraso do primeiro acesso.
 
----
+## 🚀 Deploy — Netlify (não dorme — recomendado)
 
-## 🚀 Opção B — Netlify (não dorme)
-
-1. Suba o código num repositório **público** no GitHub (mesmo da Opção A).
-2. https://app.netlify.com → **Add new site** → **Import an existing project** → escolha o repo.
-3. **Build command** vazio · **Publish directory** `.` → **Deploy**.
-4. **Site configuration → Environment variables** → crie as 4 variáveis (mesmas da tabela acima); marque a chave como **secret**.
-5. ⚠️ **Deploys → Trigger deploy → Clear cache and deploy site** (as variáveis só valem após um novo deploy!).
-
-> No Netlify, o `server.js` não é usado — a função em `netlify/functions/sheets-proxy.js` é detectada automaticamente (configurada em `netlify.toml`).
+1. Repo público no GitHub → https://app.netlify.com → **Add new site** → **Import**.
+2. **Build command** vazio · **Publish directory** `.` → Deploy.
+3. **Environment variables** → as **mesmas 4** acima (chave como secret).
+4. ⚠️ **Deploys → Trigger deploy → Clear cache and deploy site** (variáveis só valem após novo deploy).
 
 ---
 
-## ✅ Como testar se conectou
-Abra o painel → **F12** → **Console** → digite `debugSheets()`.
-Deve aparecer `Fonte: live | 30 linhas via proxy`.
+## 🔗 Como usar
+- **Lista de clientes:** abra a URL raiz (`https://seu-app/`) — aparece um seletor com busca.
+- **Um cliente direto:** `https://seu-app/?cliente=vila-campana`.
+- Você pode salvar/enviar para cada cliente o link com o `?cliente=` dele.
 
-**Diagnóstico rápido:** abra `https://seu-app/api/sheets` direto no navegador. O JSON traz `error`/`detail`/`hint` apontando o problema:
-- **403** → planilha não pública **ou** API Key com restrição de site/referrer (deixe a restrição de aplicativo como **None**)
-- **404** → ID errado (cole sem `/edit` e sem espaços)
-- **400** → `GOOGLE_SHEETS_NAME` está com o nome do arquivo (deve ser o nome da **aba**, no rodapé)
-
----
-
-## 🔓 A planilha precisa estar pública para leitura
-Compartilhar → **Acesso geral: Qualquer pessoa com o link** → **Leitor**. (Sem isso = erro 403.)
-
-> Range largo? Se a planilha tiver muitas colunas, troque `A1:Z200` por `A1:AZ200`.
+## ✅ Testar
+- `https://seu-app/api/clients` → deve listar seus clientes.
+- `https://seu-app/api/sheets?cliente=vila-campana` → deve trazer os dados (e em `_meta`, o nome e as metas).
+- No painel: **F12 → Console → `debugSheets()`** → `Fonte: live | N linhas via proxy`.
+- Diagnóstico de erro: o JSON dessas URLs traz `error`/`detail`/`hint` (403 = não-pública, 404 = ID errado, 400 = aba errada).
 
 ---
 
-## 🆕 O que esta versão (v3) traz
-- **KPIs que respondem ao filtro** de período: ao escolher 7/14 dias, o valor passa a ser só daquela janela e a meta é ajustada proporcionalmente.
-- **Aba "Por período"**: blocos por plataforma (Google × Facebook) nas janelas Mensal / 15 dias / 7 dias.
-- **CSV com `;`** e BOM UTF-8 (o Excel BR não joga tudo numa coluna só, acentos preservados).
-- **Favicon** com a logo (em `assets/favicon.png`) — troque pela arte oficial quando tiver.
-- Cabeçalho minimalista e deploy duplo (Render + Netlify).
-
-## ⚙️ Ajustes rápidos
-- **Metas / orçamento**: bloco `meta` em `data/dataset.js`. Os *realizados* (gasto e leads) são calculados ao vivo das linhas diárias da planilha.
-- **Cores / tema**: `css/variables.css`.
-- **Logo/favicon**: a logo da agência (`assets/logo-acesso.png`) já vem recolorida em branco para o cabeçalho azul. Para trocar o ícone da aba, substitua `assets/favicon.png`.
+## 🆕 Recursos
+- KPIs que respondem ao filtro de período (meta proporcional), aba "Por período", CSV com `;` + BOM (Excel BR), tema escuro padrão + claro, favicon, deploy duplo.
+- Modo demonstração: `?cliente=demo` (ou sem configuração) mostra dados de exemplo.
 
 ## 📁 Estrutura
 ```
-server.js                       servidor Node + proxy (Opção Render)
-netlify.toml + netlify/...      função serverless (Opção Netlify)
-index.html                      página do dashboard
-assets/favicon.png              ícone da aba
-css/                            tokens, base, header, componentes, gráficos
-js/                             config, sheets, utils, theme, kpis, charts, table, period, report, main
-data/dataset.js                 dados de exemplo (fallback) + metas
+server.js                       servidor multi-cliente (Render)
+netlify.toml + netlify/...       função serverless (Netlify)
+index.html                       seletor de clientes + dashboard
+assets/                          logos e favicon
+css/ js/                         estilos e lógica
+data/dataset.js                  dados de exemplo (modo demo)
 ```

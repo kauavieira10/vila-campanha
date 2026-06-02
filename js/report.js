@@ -15,7 +15,7 @@ window.Report = (function () {
     URL.revokeObjectURL(link.href);
   }
 
-  function fromData(data) {
+  function fromData(data, nome) {
     const header = ['Data', 'Dia', 'Verba Google', 'Leads Google', 'Verba Facebook', 'Leads Facebook', 'CPL Facebook', 'Leads no dia', 'Leads acumulados', '% da meta'];
     const body = data.rows.map(r => [
       r.label, r.dia,
@@ -24,7 +24,8 @@ window.Report = (function () {
       r.leadsDia, r.leadsTotal, Utils.pct(r.metaPct, 0)
     ]);
     const stamp = new Date().toISOString().slice(0, 10);
-    exportCSV([header, ...body], `relatorio-vila-campanha-${stamp}.csv`);
+    const slug = (nome || 'cliente').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    exportCSV([header, ...body], `relatorio-${slug}-${stamp}.csv`);
   }
 
   return { exportCSV, fromData };
