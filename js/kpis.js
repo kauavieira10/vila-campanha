@@ -30,12 +30,13 @@ window.Kpis = (function () {
       </div>`;
   }
 
-  function render(view, period, meta, diasNoMes) {
+  function render(view, daysInRange, meta, diasNoMes) {
     const rows = view.rows;
-    const days = periodDays(period, diasNoMes);
-    const factor = period === 'mes' ? 1 : days / diasNoMes;
-    const suffix = period === 'mes' ? '' : ` · ${days} dias`;
-    const metaLabel = period === 'mes' ? 'Meta' : 'Meta prop.';
+    const days = Math.max(1, daysInRange || diasNoMes);
+    const isFull = days >= diasNoMes;
+    const factor = isFull ? 1 : days / diasNoMes;
+    const suffix = isFull ? '' : ` · ${days} dias`;
+    const metaLabel = isFull ? 'Meta' : 'Meta prop.';
 
     const invest = rows.reduce((s, r) => s + r.verbaGoogle + r.verbaFB, 0);
     const leads  = rows.reduce((s, r) => s + r.leadsDia, 0);

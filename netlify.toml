@@ -8,6 +8,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/meta"
+  to   = "/.netlify/functions/sheets-proxy?route=meta"
+  status = 200
+
+[[redirects]]
   from = "/api/sheets"
   to   = "/.netlify/functions/sheets-proxy"
   status = 200

@@ -15,3 +15,7 @@ services:
         value: Clientes
       - key: CONTROL_SHEET_RANGE
         value: A1:Z300
+      - key: META_ACCESS_TOKEN
+        sync: false
+      - key: META_API_VERSION
+        value: v24.0

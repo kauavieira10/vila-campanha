@@ -206,3 +206,76 @@ table.data tfoot td:first-child { text-align: left; }
   .toast-zone { left: 12px; right: 12px; bottom: 12px; }
   .toast { min-width: 0; }
 }
+
+/* ============================================================
+   CALENDÁRIO (portal popup) — date-filter
+   ============================================================ */
+.df-pop {
+  position: fixed; z-index: 999999; isolation: isolate; width: 300px; padding: 12px;
+  background: var(--glass-bg); -webkit-backdrop-filter: blur(28px) saturate(180%); backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--glass-border); border-radius: var(--radius-card); box-shadow: 0 16px 48px rgba(8,17,32,0.4);
+  color: var(--text); animation: fadeUp 0.18s ease both;
+}
+:root[data-theme="dark"] .df-pop { background: #0e1830; }
+:root[data-theme="light"] .df-pop { background: #ffffff; }
+.df-presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
+.df-presets button { font-size: 12px; font-weight: 600; color: var(--text); padding: 7px 4px; border-radius: 9px; background: var(--surface-2); border: 1px solid var(--border); transition: all 0.15s ease; }
+.df-presets button:hover { border-color: var(--primary); color: var(--primary); }
+.df-cal-head { display: flex; align-items: center; justify-content: space-between; margin: 4px 2px 8px; }
+.df-title { font-family: var(--font-display); font-weight: 700; font-size: 14px; }
+.df-nav { width: 28px; height: 28px; border-radius: 8px; font-size: 18px; color: var(--text); background: var(--surface-2); }
+.df-nav:disabled { opacity: 0.3; cursor: default; }
+.df-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.df-dow { text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); padding: 4px 0; }
+.df-day { height: 34px; border-radius: 8px; font-size: 12.5px; color: var(--text); background: transparent; transition: background 0.12s ease; }
+.df-day:hover:not(:disabled) { background: var(--surface-2); }
+.df-day.df-off { opacity: 0.28; cursor: default; }
+.df-day.df-in { background: var(--primary-soft); border-radius: 0; }
+.df-day.df-edge { background: var(--primary); color: #fff; border-radius: 8px; }
+.df-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+.df-hint { font-size: 11px; color: var(--muted); }
+.df-apply { font-size: 13px; font-weight: 600; color: #fff; background: var(--primary); padding: 7px 16px; border-radius: 9px; }
+
+/* ============================================================
+   CRIATIVOS (Meta Ads)
+   ============================================================ */
+.meta-state { display: none; padding: 14px 18px; border-radius: var(--radius-sm); background: var(--primary-soft); color: var(--primary-strong); font-size: 13px; margin-bottom: 4px; }
+:root[data-theme="dark"] .meta-state { color: var(--primary); }
+.meta-state.show { display: block; }
+.meta-state.err { background: var(--accent-soft); color: var(--accent); }
+.meta-state-sub { color: var(--muted); font-size: 12px; }
+
+.meta-filters { display: flex; gap: 8px; margin: 14px 0 16px; flex-wrap: wrap; }
+.meta-filters button {
+  display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--muted);
+  background: var(--glass-bg-2); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border); padding: 7px 14px; border-radius: var(--radius-pill); transition: all 0.15s ease;
+}
+.meta-filters button.is-active { color: var(--text); border-color: var(--primary); }
+.meta-filters button strong { color: var(--text); }
+.meta-filters .md { width: 8px; height: 8px; border-radius: 50%; }
+.meta-filters .md.grey { background: var(--muted); }
+.meta-filters .md.green { background: var(--success); }
+.meta-filters .md.amber { background: var(--warning); }
+
+.creative-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--gap); }
+.creative-card {
+  background: var(--glass-bg); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border); border-radius: var(--radius-card); box-shadow: var(--glass-shadow); overflow: hidden;
+  animation: fadeUp 0.4s ease both;
+}
+.cr-thumb { position: relative; aspect-ratio: 4 / 3; background: var(--surface-2); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.cr-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.cr-thumb.cr-noimg::after { content: "sem imagem"; font-size: 12px; color: var(--muted); }
+.cr-play { position: absolute; width: 42px; height: 42px; border-radius: 50%; background: rgba(0,0,0,0.5); color: #fff; display: flex; align-items: center; justify-content: center; }
+.cr-play svg { width: 20px; height: 20px; margin-left: 2px; }
+.cr-status { position: absolute; top: 10px; left: 10px; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: var(--radius-pill); }
+.cr-status.on { background: rgba(31,157,86,0.9); color: #fff; }
+.cr-status.off { background: rgba(91,107,135,0.9); color: #fff; }
+.cr-body { padding: 14px 16px 16px; }
+.cr-name { font-family: var(--font-display); font-weight: 700; font-size: 13.5px; margin-bottom: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cr-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 8px; }
+.cr-metric { display: flex; flex-direction: column; gap: 1px; }
+.cr-mlabel { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 600; }
+.cr-mval { font-size: 14px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+.cr-mval.accent { color: var(--accent); }
